@@ -72,6 +72,41 @@ Manual demo: use **Inject Anomaly** in the Live Dashboard, inspect probes in the
 
 ---
 
+## Google sign-in (optional)
+
+The site runs as a **public demo by default**, so jurors are never blocked by a login. Google sign-in (Auth.js v5) switches on automatically when its three env vars are set:
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `AUTH_SECRET` | yes | Session encryption key: `npx auth secret` or `openssl rand -base64 32` |
+| `AUTH_GOOGLE_ID` | yes | OAuth client ID from Google Cloud |
+| `AUTH_GOOGLE_SECRET` | yes | OAuth client secret from Google Cloud |
+| `AUTH_REQUIRED` | no | `true` → the whole site requires sign-in |
+| `AUTH_ALLOWED_EMAILS` | no | Comma-separated allowlist, e.g. `you@gmail.com,teammate@gmail.com` |
+| `AUTH_ALLOWED_DOMAINS` | no | Comma-separated email domains, e.g. `university.edu` |
+
+When it is enabled, a **Sign in** button appears in the navbar, `/signin` becomes available, and the Cybersecurity section shows the signed-in identity.
+
+**Google Cloud setup (≈5 min):**
+1. <https://console.cloud.google.com/> → create or select a project.
+2. *APIs & Services → OAuth consent screen* → External → fill in the app name and support email → add your test users (while in "Testing").
+3. *APIs & Services → Credentials → Create credentials → OAuth client ID* → **Web application**.
+4. **Authorized JavaScript origins:** `https://<your-domain>` (and `http://localhost:3000` for local).
+5. **Authorized redirect URIs:** `https://<your-domain>/api/auth/callback/google` (and `http://localhost:3000/api/auth/callback/google`).
+6. Copy the client ID and secret into the env vars above (`.env.local` locally; see `.env.example`).
+
+---
+
+## Deploying to Railway
+
+Railway's Railpack builder detects Next.js automatically: it builds with `npm run build` and starts with `npm start` (which honours `$PORT`).
+
+1. New service → *Deploy from GitHub repo* → this repo/branch.
+2. *Settings → Networking → Generate Domain*.
+3. Optional: add the Google sign-in variables under *Variables* (Railway redeploys automatically).
+
+---
+
 ## Simulation engine
 
 `src/lib/simulation.ts` — a lightweight, dependency-free model. Values are **not** independent random numbers:
@@ -98,7 +133,7 @@ value = baseline + sin(t / period) × small_variation + low-pass-filtered noise 
 
 ## Tech stack
 
-Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · shadcn-style UI primitives (`src/components/ui`) · Lucide icons · Framer Motion · Recharts · hand-built SVG for all hardware illustrations (no stock images).
+Next.js 15 (App Router) · React 19 · TypeScript · Auth.js v5 (Google) · Tailwind CSS 4 · shadcn-style UI primitives (`src/components/ui`) · Lucide icons · Framer Motion · Recharts · hand-built SVG for all hardware illustrations (no stock images).
 
 ```
 src/

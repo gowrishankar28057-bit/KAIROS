@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { CheckCircle2, FileClock, Fingerprint, KeyRound, Loader2, Lock, ScanLine, ServerCog, ShieldCheck, UserCog, Usb } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { OperatorIdentity } from "@/components/UserMenu";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Section, SectionHeader, SimTag } from "@/components/ui/section";
@@ -123,6 +124,10 @@ export function SecurityLayer() {
             <Button variant="primary" size="sm" onClick={scan} disabled={scanning}>
               <ScanLine className="h-4 w-4" /> {scanning ? "Scanning…" : "Run Security Scan"}
             </Button>
+          </div>
+          <div className="mt-4 rounded-xl border border-sci-100 bg-sci-50/60 px-4 py-3">
+            <p className="mb-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-500">Current session · identity layer</p>
+            <OperatorIdentity />
           </div>
         </Card>
 

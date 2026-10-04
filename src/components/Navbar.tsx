@@ -3,6 +3,7 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSimulation } from "@/components/SimulationProvider";
+import { UserMenu } from "@/components/UserMenu";
 import { cn } from "@/lib/utils";
 
 export const NAV_LINKS = [
@@ -75,6 +76,7 @@ export function Navbar() {
             LIVE PROTOTYPE SIMULATION
             <span className="hidden text-slate-500 2xl:inline">{lastUpdate}</span>
           </span>
+          <UserMenu />
           <button
             className="rounded-lg p-2 text-navy-900 hover:bg-sci-50 xl:hidden"
             onClick={() => setOpen((o) => !o)}
